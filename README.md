@@ -1,4 +1,4 @@
-# junctionPredictionFromGeneSequence
+# Junction Prediction From Gene Sequence Using RNN
 Splice junction prediction from gene sequences using multilayered recurrent neural networks
 
 # Repository description
