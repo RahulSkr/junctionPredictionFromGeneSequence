@@ -41,7 +41,8 @@ To use the proposed model, one must create an object of the class SpliceClassifi
 - **seq_len**: Length of each sequence(default: 20)
 - **word_size**: Vocabulary length(default: 64) 
 
-Users need to call the rnn_base() method to create the model. To define the model optimizations, one needs to call the model_optimizer_define() method with the required lrate as the parameter of the function. 
+Users need to call the rnn_base() method to create the model.  
+To define the model optimizations, one needs to call the model_optimizer_define() method with the required lrate as the parameter of the function.  
 The model can be trained using the model_train() method with the following parameters mentioned below.
 - **X_train and y_train**: Sets of cross validation training sets
 - **X_test and y_test**: Sets of corresponding test sets
@@ -55,10 +56,11 @@ The model can be trained using the model_train() method with the following param
 - **per_process_gpu_memory_fraction**: percentage of gpu memory allowed(default: 0.925)
 - **log_path_train**: path to which log files are saved(default: "") 
 
+> We used 5-fold cross validation for our contribution  
+> i.e., X_train and X_test contain 5 sets of training and validation sets representing every possible combination of the 5 folds.
+
 The model visualization can be performed by calling model_roc_visualize() method with the parameters defined below. The function will return the ROC curves for the 3 individual classes along with their AUROC scores. It will also print the corresponding accuracy and loss. 
 - **X**: Training encoded codon lists
 - **y**: Respective labels
 - **model_path**: path to the saved best model parameters 
 
-We used 5-fold cross validation for our contribution  
-i.e., X_train and X_test contain 5 sets of training and validation sets representing every possible combination of the 5 folds.
