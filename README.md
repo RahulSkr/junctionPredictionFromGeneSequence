@@ -1,5 +1,5 @@
 # junctionPredictionFromGeneSequence
-Splice junction prediction from gene sequences using recurrent neural networks
+Splice junction prediction from gene sequences using multilayered recurrent neural networks
 
 # Repository description
 The dataset used for this project has been provided in the /data/spliceData.txt file. The data was made available at UCI machine learning repository by:  
@@ -33,7 +33,7 @@ This method will return the possible sets of cross validation data, each trainin
 - **y_test**:Corresponding validation labels
 
 # Building a model
-To use the proposed model, one must create an object of the class SpliceClassificationModel present in the SpliceClassification.py file specifying the the parameters listed below with their following definitions.
+To use the proposed model, one must create an object of the class SpliceClassificationModel present in the SpliceClassification.py file specifying the the parameters listed below with their following definitions. (For this project we prefer LSTM, but one might use GRU/Basic RNN kernels instead)  
 - **n_units**: Number of hidden reccurent units in a singe layer(default: 90)
 - **n_layers**: Number of layers in a single stack of the model(default: 3)
 - **n_classes**: Number of classification categories(default: 3)
