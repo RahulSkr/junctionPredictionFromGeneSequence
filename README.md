@@ -31,3 +31,28 @@ This method will return the possible sets of cross validation data, each trainin
 - **y_train**: Corresponding sets of labels
 - **X_test**: Respective validation sets
 - **y_test**:Corresponding validation labels
+
+
+- **n_units**: Number of hidden reccurent units in a singe layer
+- **n_layers**: Number of layers in a single stack of the model
+- **n_classes**: Number of classification categories
+- **n_seq**: Number of shift sequences 0-shift, 1-shift and 2-shift. i.e 3 in our case
+- **seq_len**: Length of each sequence
+- **word_size**: Vocabulary length
+
+
+- **X_train and y_train**: Sets of cross validation training sets
+- **X_test and y_test**: Sets of corresponding test sets
+- **train_steps**: Number of training steps
+- **weight_path**: Path to save the weights
+- **n_folds**: the number of cross validation folds
+- **esPatience**: patience for early stopping
+- **lrPatience**: patience for learning rate reduction
+- **epsilon**: number of places after decimal to which the loss is scalled
+- **lr_decay**: learning rate decay factor
+- **per_process_gpu_memory_fraction**: percentage of gpu memory allowed
+- **log_path_train**: path to which log files are saved
+
+We used 5-fold cross validation for our contribution  
+i.e., X_train and X_test contain 5 sets of training and validation sets representing every possible combination of the 5 folds
+- **
