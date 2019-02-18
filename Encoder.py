@@ -124,7 +124,7 @@ class Encoder:
             listGroup.append([args[0][idx], args[1][idx], args[2][idx]])
         return listGroup
     
-    def get_all_possible_codone_list(self, filePath, seqSt, seqEd, labSt):
+    def get_all_possible_codon_list(self, filePath, seqSt, seqEd, labSt):
         '''
         filePath: path to the sequence file
         seqSt: the common starting posistion of the sequences in the file. For the dataset we use seqSt=39
