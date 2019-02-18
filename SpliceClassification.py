@@ -148,9 +148,7 @@ class SpliceClassificationModel:
         '''
         X: training encoded codone lists
         y: respective labels
-        model_path: path to the saved best model parameters 
-        acc_path: path to the saved training accuracy list 
-        loss_path: path to the saved training loss list
+        model_path: path to the saved best model parameters
         '''
         with tf.Session(config = tf.ConfigProto(gpu_options = self.gpuOpt)) as sess:
             sess.run(tf.global_variables_initializer())
