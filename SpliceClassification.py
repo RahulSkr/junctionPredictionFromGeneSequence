@@ -8,16 +8,22 @@ from sklearn.metrics import roc_curve, auc
 class SpliceClassificationModel:
     
     def __init__(self, n_units=90, n_layers=3, n_classes=3,
-                n_seq=3, seq_len=20, word_size=64,
-                per_process_gpu_memory_fraction=0.925):
+                n_seq=3, seq_len=20, word_size=64):
+        '''
+        n_units: number of hidden recurrent units in a single layer
+        n_layers: number of layers in a single stack of the model
+        n_classes: number of classifiation categories
+        n_seq: number of shift sequences 0-shift, 1-shift and 2-shift, i.e., 3 in our case
+        seq_len: length of the encoded sequences, in terms of states
+        word_size: size of vocabulary
+        '''
         self.n_units = n_units
         self.n_layers = n_layers
         self.n_classes = n_classes
         self.n_seq = n_seq
         self.seq_len = seq_len
         self.word_size = word_size
-        self.per_process_gpu_memory_fraction = per_process_gpu_memory_fraction
-    
+        
     def get_a_cell(self, cell_size, keep_prob=1):
         cell = tf.nn.rnn_cell.BasicLSTMCell(cell_size)
         drop = tf.nn.rnn_cell.DropoutWrapper(cell, output_keep_prob=keep_prob)
@@ -60,6 +66,9 @@ class SpliceClassificationModel:
         self.final_output2 = tf.matmul(outputs2[:,-1,:], weights2["linear_layer"]) + biases2["linear_layer"]
         
     def model_optimizer_define(self, lrate=0.001):
+        '''
+        lrate: learning rate
+        '''
         self.lrate = lrate
         softmax0 = tf.nn.softmax_cross_entropy_with_logits(logits = self.final_output0, labels = self.target)
         cross_entropy0 = tf.reduce_mean(softmax0)
@@ -79,10 +88,20 @@ class SpliceClassificationModel:
         
     def model_train(self, X_train, y_train, X_test, y_test, train_steps=10000, weight_path="", 
                     n_folds=5, esPatience=15, lrPatience=10, epsilon=3, lr_decay = 0.1,
-                    per_process_gpu_memory_fraction=0.9, log_path_train=""):
+                    per_process_gpu_memory_fraction=0.925, log_path_train=""):
         '''
         X_train and y_train: Sets of cross validation training sets
         X_test and y_test: Sets of corresponding cross validation test sets
+        
+        train_steps: number of training epochs
+        weight_path: path to save the weights
+        n_folds: the number of cross validation folds
+        esPatience: patience for early stopping
+        lrPatience: patience for learning rate reduction
+        epsilon: number of places after decimal to which the loss is scalled
+        lr_decay: learning rate decay factor
+        per_process_gpu_memory_fraction: percentage of gpu memory allowed
+        log_path_train: path to which log files are saved
         
         We used 5-fold cross validation for our contribution 
         i.e., X_train and X_test contain 5 sets of training and validation sets representing every possible combination of the 5 folds
@@ -90,7 +109,7 @@ class SpliceClassificationModel:
         taccList = []
         tlossList = []
         
-        self.gpuOpt = tf.GPUOptions(per_process_gpu_memory_fraction=self.per_process_gpu_memory_fraction)
+        self.gpuOpt = tf.GPUOptions(per_process_gpu_memory_fraction=per_process_gpu_memory_fraction)
         self.saver = tf.train.Saver()
         
         loss_summary = tf.summary.scalar(name='loss', tensor=self.cross_entropy)
@@ -144,12 +163,15 @@ class SpliceClassificationModel:
         np.save("accuracy.npy",self.taccList)
         np.save("loss.npy",self.tlossList)
     
-    def model_roc_visualize(self, X, y, model_path):
+    def model_roc_visualize(self, X, y, model_path, per_process_gpu_memory_fraction=0.925):
         '''
         X: training encoded codone lists
         y: respective labels
-        model_path: path to the saved best model parameters
+        model_path: path to the saved best model parameters 
+        acc_path: path to the saved training accuracy list 
+        loss_path: path to the saved training loss list
         '''
+        self.gpuOpt = tf.GPUOptions(per_process_gpu_memory_fraction=per_process_gpu_memory_fraction)
         with tf.Session(config = tf.ConfigProto(gpu_options = self.gpuOpt)) as sess:
             sess.run(tf.global_variables_initializer())
             self.saver.restore(sess, model_path)
