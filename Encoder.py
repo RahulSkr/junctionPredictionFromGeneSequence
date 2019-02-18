@@ -92,7 +92,7 @@ class Encoder:
         y = oneHotEncoder.fit_transform(y.reshape(-1,1))
         return y
         
-    def padSeq(self, X, padVectorLen):
+    def padSeq(self, X, padVectorLen=64):
         '''
         This method is used to pad the uneven sequences
         padvectorLen: is equal to the length of the one hot encoded vector
